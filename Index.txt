@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cancionero de la Iglesia</title>
+  <style>
+    :root { --bg: #f8f9fa; --card: #ffffff; --text: #212529; --primary: #0d6efd; }
+    body.dark { --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --primary: #0d6efd; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+    header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 1.2rem; }
+    .btn-toggle { background: transparent; border: 1px solid white; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    .container { padding: 1rem; max-width: 600px; margin: 0 auto; }
+    input[type="text"] { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; margin-bottom: 1rem; }
+    .list-item { background: var(--card); padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .list-item h3 { margin: 0 0 0.25rem 0; font-size: 1.1rem; color: var(--primary); }
+    .list-item p { margin: 0; font-size: 0.85rem; opacity: 0.7; }
+    .view-song { display: none; background: var(--card); padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .btn-back { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-bottom: 1rem; }
+    .verse { margin-bottom: 1.2rem; line-height: 1.6; font-size: 1.1rem; white-space: pre-line; }
+    .verse-type { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; color: var(--primary); margin-bottom: 0.2rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📖 Cancionero Iglesia</h1>
+    <button class="btn-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+  </header>
+
+  <div class="container">
+    <!-- VISTA BUSCADOR -->
+    <div id="searchView">
+      <input type="text" id="searchInput" placeholder="🔍 Buscar por título, autor o letra..." oninput="filtrar()">
+      <div id="songsList">Cargando canciones...</div>
+    </div>
+
+    <!-- VISTA CANCIÓN -->
+    <div id="songView" class="view-song">
+      <button class="btn-back" onclick="cerrarCancion()">← Volver al buscador</button>
+      <h2 id="songTitle" style="margin-top:0;"></h2>
+      <p id="songAuthor" style="opacity:0.7; font-style:italic;"></p>
+      <hr style="margin: 1rem 0; border:0; border-top:1px solid #ccc;">
+      <div id="songContent"></div>
+    </div>
+  </div>
+
+  <script>
+    let canciones = [];
+
+    // Cargar JSON
+    fetch('canciones.json')
+      .then(res => res.json())
+      .then(data => {
+        canciones = data;
+        mostrarLista(canciones);
+      })
+      .catch(err => {
+        document.getElementById('songsList').innerHTML = 'Error al cargar canciones.json. Asegúrate de que está en la misma carpeta.';
+      });
+
+    function mostrarLista(items) {
+      const container = document.getElementById('songsList');
+      if(items.length === 0) {
+        container.innerHTML = '<p>No se encontraron canciones.</p>';
+        return;
+      }
+      container.innerHTML = items.map((c, index) => `
+        <div class="list-item" onclick="verCancion(${canciones.indexOf(c)})">
+          <h3>${c.titulo}</h3>
+          <p>${c.autor}</p>
+        </div>
+      `).join('');
+    }
+
+    function filtrar() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtradas = canciones.filter(c => {
+        const enTitulo = c.titulo.toLowerCase().includes(q);
+        const enAutor = c.autor.toLowerCase().includes(q);
+        const enLetra = c.estrofas.some(e => e.texto.toLowerCase().includes(q));
+        return enTitulo || enAutor || enLetra;
+      });
+      mostrarLista(filtradas);
+    }
+
+    function verCancion(index) {
+      const c = canciones[index];
+      document.getElementById('songTitle').innerText = c.titulo;
+      document.getElementById('songAuthor').innerText = c.autor;
+      
+      const html = c.estrofas.map(e => `
+        <div class="verse">
+          <div class="verse-type">${e.tipo || 'Estrofa'}</div>
+          <div>${e.texto}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('songContent').innerHTML = html;
+      document.getElementById('searchView').style.display = 'none';
+      document.getElementById('songView').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    function cerrarCancion() {
+      document.getElementById('searchView').style.display = 'block';
+      document.getElementById('songView').style.display = 'none';
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

@@ -218,7 +218,13 @@
 
         const text = document.createElement('div');
         text.className = 'verse-text';
-        text.innerText = e.texto; // Formato con saltos de línea limpios
+        
+        // Limpia y añade espacios donde faltaban entre saltos de línea
+        let textoCorregido = e.texto
+          .replace(/([a-záéíóúñA-ZÁÉÍÓÚÑ])\n([a-záéíóúñA-ZÁÉÍÓÚÑ])/g, '$1 $2') // Separa palabras unidas por saltos
+          .replace(/\s+/g, ' '); // Evita espacios dobles
+          
+        text.innerText = textoCorregido;
 
         block.appendChild(tag);
         block.appendChild(text);

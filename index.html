@@ -158,6 +158,7 @@
     </header>
 
     <div class="container">
+      <button id="addBtn" class="btn-action btn-primary hidden" onclick="crearNuevaCancion()" style="width: 100%; margin-bottom: 1rem; padding: 0.8rem; font-size: 1rem;">➕ Añadir Nueva Canción</button>
       <input type="text" id="searchInput" class="search-box" placeholder="Buscar por título o palabra..." oninput="filtrarCanciones()">
       <ul id="songList" class="song-list"></ul>
 
@@ -187,22 +188,22 @@
     </div>
 
     <div class="form-group">
-      <label>Autor / Nota:</label>
+      <label>Autor / Tono / Nota:</label>
       <input type="text" id="inputAutor">
     </div>
 
     <div class="form-group">
-      <label>Letra completa (las estrofas separadas por una línea en blanco):</label>
+      <label>Letra completa (separa cada estrofa con una línea en blanco):</label>
       <textarea id="inputLetra" rows="12"></textarea>
     </div>
 
     <button class="btn-action btn-primary" onclick="guardarCancion()">💾 Guardar Cambios</button>
     <button id="deleteBtn" class="btn-action btn-danger" onclick="eliminarCancionActual()">🗑️ Eliminar</button>
-    <button class="btn-action" onclick="descargarJSONActualizado()" style="margin-top:1rem; width:100%;">📥 Exportar canciones.json para la App</button>
+    <button class="btn-action" onclick="descargarJSONActualizado()" style="margin-top:1rem; width:100%;">📥 Exportar canciones.json para publicar a todos</button>
   </div>
 
   <script>
-    const CLAVE_ADMIN = "1234"; // Puedes cambiar la contraseña aquí
+    const CLAVE_ADMIN = "1234"; // Tu contraseña de administración
     let esAdmin = false;
     let canciones = [];
     let cancionSeleccionadaIndex = -1;
@@ -257,7 +258,6 @@
 
     function corregirEspaciosTexto(texto) {
       if (!texto) return '';
-      // Corrige automáticamente palabras pegadas por saltos de línea de OpenLP
       return texto
         .replace(/([a-zà-ÿA-ZÀ-ß])\n([a-zà-ÿA-ZÀ-ß])/g, '$1 $2')
         .replace(/([a-zà-ÿA-ZÀ-ß])<br\s*\/?>([a-zà-ÿA-ZÀ-ß])/gi, '$1 $2')
@@ -307,7 +307,8 @@
       const pw = prompt("Introduce la contraseña de administración:");
       if (pw === CLAVE_ADMIN) {
         esAdmin = true;
-        alert("¡Acceso concedido! Ahora puedes editar canciones.");
+        alert("¡Acceso concedido! Ahora puedes editar y crear canciones.");
+        document.getElementById('addBtn').classList.remove('hidden');
         if (cancionSeleccionadaIndex !== -1) {
           document.getElementById('editBtn').classList.remove('hidden');
         }
@@ -316,13 +317,23 @@
       }
     }
 
+    function crearNuevaCancion() {
+      cancionSeleccionadaIndex = -1; // Indica canción nueva
+      document.getElementById('adminTitle').innerText = "Añadir Nueva Canción";
+      document.getElementById('inputTitulo').value = '';
+      document.getElementById('inputAutor').value = '';
+      document.getElementById('inputLetra').value = '';
+
+      document.getElementById('deleteBtn').classList.add('hidden');
+      document.getElementById('adminView').style.display = 'block';
+    }
+
     function editarCancionActual() {
       const c = canciones[cancionSeleccionadaIndex];
       document.getElementById('adminTitle').innerText = "Editar Cántico";
       document.getElementById('inputTitulo').value = c.titulo;
       document.getElementById('inputAutor').value = c.autor || '';
       
-      // Unir estrofas en texto editable
       let textoCompleto = c.estrofas ? c.estrofas.map(e => corregirEspaciosTexto(e.texto)).join('\n\n') : '';
       document.getElementById('inputLetra').value = textoCompleto;
 
@@ -337,7 +348,6 @@
 
       if (!titulo) return alert("El título es obligatorio.");
 
-      // Separar por bloques de estrofas (líneas en blanco)
       const bloques = letraBruta.split(/\n\s*\n/);
       const estrofas = bloques.map((b, idx) => ({
         tipo: `v${idx + 1}`,

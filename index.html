@@ -16,7 +16,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 
-    /* Header Global con Admin siempre disponible */
+    /* Cabecera Superior */
     .top-bar {
       background: var(--primary);
       color: white;
@@ -29,54 +29,19 @@
       top: 0;
       z-index: 50;
     }
-    .top-bar h1 { font-size: 1rem; font-weight: 700; text-align: left; }
+    .top-bar h1 { font-size: 1.1rem; font-weight: 700; text-align: left; }
     
     .btn-admin-header {
-      background: rgba(255, 255, 255, 0.2);
+      background: #2b6cb0;
       color: white;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      padding: 0.4rem 0.8rem;
+      border: none;
+      padding: 0.5rem 0.9rem;
       border-radius: 6px;
       font-size: 0.85rem;
       cursor: pointer;
       font-weight: bold;
     }
-
-    /* Pantalla de Inicio / Bienvenida */
-    .hero-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 75vh;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .church-logo {
-      width: 130px;
-      height: 130px;
-      margin-bottom: 1.2rem;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    .church-subtitle { font-size: 1.1rem; color: #718096; font-weight: 600; letter-spacing: 1px; margin-bottom: 0.5rem; }
-    .main-title { font-size: 1.7rem; color: var(--primary); font-weight: 800; margin-bottom: 2rem; }
-
-    .btn-enter {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 1rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s, background 0.2s;
-    }
+    .btn-admin-header:hover { background: #3182ce; }
 
     .container { max-width: 700px; margin: 0 auto; padding: 1rem; padding-bottom: 4rem; }
     
@@ -179,22 +144,14 @@
 </head>
 <body>
 
-  <!-- Cabecera Superior (Acceso directo a Admin) -->
+  <!-- Cabecera Superior -->
   <div class="top-bar">
     <h1>Himnario Iglesia de Jesus en La Linea</h1>
     <button class="btn-admin-header" onclick="loginAdmin()">🔒 Admin</button>
   </div>
 
-  <!-- Pantalla de Bienvenida -->
-  <div id="welcomeScreen" class="hero-screen">
-    <img src="logo.png" alt="Logo Centro Cristiano Nuevo Pacto" class="church-logo" onerror="this.style.display='none'">
-    <div class="church-subtitle">CENTRO CRISTIANO NUEVO PACTO</div>
-    <h1 class="main-title">Himnario Iglesia de Jesus en La Linea</h1>
-    <button class="btn-enter" onclick="abrirHimnario()">Ver Canciones</button>
-  </div>
-
   <!-- Aplicación Principal (Buscador y Lista) -->
-  <div id="mainApp" class="hidden">
+  <div id="mainApp">
     <div class="container">
       <button id="addBtn" class="btn-action btn-primary hidden" onclick="crearNuevaCancion()" style="width: 100%; margin-bottom: 1rem; padding: 0.8rem; font-size: 1rem;">➕ Añadir Nueva Canción</button>
       <input type="text" id="searchInput" class="search-box" placeholder="Buscar por título o palabra..." oninput="filtrarCanciones()">
@@ -206,7 +163,7 @@
     </div>
   </div>
 
-  <!-- Vista de la Canción (Con botones A- / A+ visibles) -->
+  <!-- Vista de la Canción -->
   <div id="songView" class="song-view">
     <div class="song-toolbar">
       <div>
@@ -225,7 +182,7 @@
     <div id="viewLyrics"></div>
   </div>
 
-  <!-- Panel de Edición/Creación (Administración) -->
+  <!-- Panel de Edición/Creación -->
   <div id="adminView" class="admin-view">
     <button class="btn-action" onclick="cerrarAdmin()" style="margin-bottom: 1rem;">← Cancelar</button>
     <h2 id="adminTitle" style="margin-bottom: 1rem;">Editar Cántico</h2>
@@ -257,7 +214,6 @@
     let cancionSeleccionadaIndex = -1;
     let fontSizeMultiplier = 1.0;
 
-    // Cargar canciones al inicio
     fetch('canciones.json')
       .then(res => res.json())
       .then(data => {
@@ -269,12 +225,6 @@
 
     function ordenarCanciones() {
       canciones.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es', { sensitivity: 'base' }));
-    }
-
-    function abrirHimnario() {
-      document.getElementById('welcomeScreen').classList.add('hidden');
-      document.getElementById('mainApp').classList.remove('hidden');
-      renderLista(canciones);
     }
 
     function renderLista(items) {
@@ -350,7 +300,6 @@
       document.getElementById('songView').style.display = 'none';
     }
 
-    /* SISTEMA DE ADMINISTRACIÓN */
     function loginAdmin() {
       const pw = prompt("Introduce la clave de administración:");
       if (pw === CLAVE_ADMIN) {
@@ -412,7 +361,6 @@
 
       ordenarCanciones();
 
-      // Guardar en GitHub
       await intentarGuardarEnGitHub();
 
       alert("¡Canción guardada correctamente!");
@@ -443,7 +391,7 @@
     async function intentarGuardarEnGitHub() {
       const token = localStorage.getItem('gh_token');
       if (!token) {
-        alert("Nota: Guarda el token de GitHub desde el botón 'Configurar API' para sincronizar automáticamente con todos.");
+        alert("Nota: Configura la API con tu Token de GitHub para guardar de forma permanente.");
         return;
       }
 

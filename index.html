@@ -3,116 +3,233 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cancionero de la Iglesia</title>
+  <title>Himnario Iglesia de Jesus en La Linea</title>
   <style>
-    :root { --bg: #f8f9fa; --card: #ffffff; --text: #212529; --primary: #0d6efd; } 
-    body.dark { --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --primary: #0d6efd; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-    header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
-    header h1 { margin: 0; font-size: 1.2rem; }
-    .btn-toggle { background: transparent; border: 1px solid white; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
-    .container { padding: 1rem; max-width: 600px; margin: 0 auto; }
-    input[type="text"] { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; margin-bottom: 1rem; }
-    .list-item { background: var(--card); padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .list-item h3 { margin: 0 0 0.25rem 0; font-size: 1.1rem; color: var(--primary); }
-    .list-item p { margin: 0; font-size: 0.85rem; opacity: 0.7; }
-    .view-song { display: none; background: var(--card); padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .btn-back { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-bottom: 1rem; }
-    .verse { margin-bottom: 1.2rem; line-height: 1.6; font-size: 1.1rem; white-space: pre-line; }
-    .verse-type { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; color: var(--primary); margin-bottom: 0.2rem; }
+    :root {
+      --primary: #1a365d;
+      --accent: #2b6cb0;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Pantalla de Inicio / Bienvenida */
+    .hero-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .church-logo {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 1.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .church-subtitle { font-size: 1.1rem; color: #718096; font-weight: 600; letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .main-title { font-size: 1.8rem; color: var(--primary); font-weight: 800; margin-bottom: 2rem; }
+
+    .btn-enter {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-enter:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* App Principal */
+    header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    header h1 { font-size: 1.2rem; }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 1rem; }
+    
+    .search-box {
+      width: 100%;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--accent); }
+
+    .song-list { list-style: none; }
+    .song-item {
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .song-item:hover { background: #edf2f7; }
+
+    /* Modal / Vista de Letra */
+    .song-view {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--card-bg);
+      z-index: 100;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .btn-back {
+      background: #e2e8f0;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+    }
+
+    .song-title-view { font-size: 1.6rem; color: var(--primary); margin-bottom: 0.3rem; }
+    .song-author-view { font-size: 0.9rem; color: #718096; margin-bottom: 1.5rem; }
+
+    .verse-block {
+      background: #f8fafc;
+      padding: 1rem 1.2rem;
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      margin-bottom: 1.2rem;
+    }
+
+    .verse-tag { font-size: 0.75rem; font-weight: bold; color: var(--accent); text-transform: uppercase; margin-bottom: 0.4rem; }
+    
+    /* Mantiene saltos de línea y espacios correctamente */
+    .verse-text {
+      white-space: pre-wrap;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #1a202c;
+    }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <header>
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.png" alt="Logo Iglesia" style="height: 35px; width: auto; object-fit: contain;">
-    <h1>Cancionero Iglesia</h1>
+  <!-- Pantalla de Bienvenida -->
+  <div id="welcomeScreen" class="hero-screen">
+    <!-- Cambia 'logo.png' por la ruta de tu imagen si la subes al repositorio -->
+    <img src="logo.png" alt="Logo Centro Cristiano Nuevo Pacto" class="church-logo" onerror="this.style.display='none'">
+    <div class="church-subtitle">CENTRO CRISTIANO NUEVO PACTO</div>
+    <h1 class="main-title">Himnario Iglesia de Jesus en La Linea</h1>
+    <button class="btn-enter" onclick="abrirHimnario()">Ver Canciones</button>
   </div>
-  <button class="btn-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
-</header>
 
-  <div class="container">
-    <!-- VISTA BUSCADOR -->
-    <div id="searchView">
-      <input type="text" id="searchInput" placeholder="🔍 Buscar por título, autor o letra..." oninput="filtrar()">
-      <div id="songsList">Cargando canciones...</div>
-    </div>
+  <!-- Aplicación Principal -->
+  <div id="mainApp" class="hidden">
+    <header>
+      <h1>Himnario Iglesia de Jesus en La Linea</h1>
+    </header>
 
-    <!-- VISTA CANCIÓN -->
-    <div id="songView" class="view-song">
-      <button class="btn-back" onclick="cerrarCancion()">← Volver al buscador</button>
-      <h2 id="songTitle" style="margin-top:0;"></h2>
-      <p id="songAuthor" style="opacity:0.7; font-style:italic;"></p>
-      <hr style="margin: 1rem 0; border:0; border-top:1px solid #ccc;">
-      <div id="songContent"></div>
+    <div class="container">
+      <input type="text" id="searchInput" class="search-box" placeholder="Buscar por título o palabra..." oninput="filtrarCanciones()">
+      <ul id="songList" class="song-list"></ul>
     </div>
+  </div>
+
+  <!-- Vista de la Canción -->
+  <div id="songView" class="song-view">
+    <button class="btn-back" onclick="cerrarCancion()">← Volver al listado</button>
+    <h2 id="viewTitle" class="song-title-view"></h2>
+    <div id="viewAuthor" class="song-author-view"></div>
+    <div id="viewLyrics"></div>
   </div>
 
   <script>
     let canciones = [];
 
-    // Cargar JSON
+    // Cargar base de datos
     fetch('canciones.json')
       .then(res => res.json())
       .then(data => {
-        canciones = data;
-        mostrarLista(canciones);
+        // Ordenar alfabéticamente por título
+        canciones = data.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es', { sensitivity: 'base' }));
+        renderLista(canciones);
       })
-      .catch(err => {
-        document.getElementById('songsList').innerHTML = 'Error al cargar canciones.json. Asegúrate de que está en la misma carpeta.';
-      });
+      .catch(err => console.error('Error cargando canciones.json:', err));
 
-    function mostrarLista(items) {
-      const container = document.getElementById('songsList');
-      if(items.length === 0) {
-        container.innerHTML = '<p>No se encontraron canciones.</p>';
-        return;
-      }
-      container.innerHTML = items.map((c, index) => `
-        <div class="list-item" onclick="verCancion(${canciones.indexOf(c)})">
-          <h3>${c.titulo}</h3>
-          <p>${c.autor}</p>
-        </div>
-      `).join('');
+    function abrirHimnario() {
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('mainApp').classList.remove('hidden');
     }
 
-    function filtrar() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
+    function renderLista(items) {
+      const listEl = document.getElementById('songList');
+      listEl.innerHTML = '';
+      items.forEach((c, index) => {
+        const li = document.createElement('li');
+        li.className = 'song-item';
+        li.innerHTML = `<span>${c.titulo}</span> <span style="color:#a0aec0; font-size:0.85rem;">➔</span>`;
+        li.onclick = () => verCancion(c);
+        listEl.appendChild(li);
+      });
+    }
+
+    function filtrarCanciones() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
       const filtradas = canciones.filter(c => {
-        const enTitulo = c.titulo.toLowerCase().includes(q);
-        const enAutor = c.autor.toLowerCase().includes(q);
-        const enLetra = c.estrofas.some(e => e.texto.toLowerCase().includes(q));
-        return enTitulo || enAutor || enLetra;
+        const porTitulo = c.titulo.toLowerCase().includes(query);
+        const porLetra = c.estrofas.some(e => e.texto.toLowerCase().includes(query));
+        return porTitulo || porLetra;
       });
-      mostrarLista(filtradas);
+      renderLista(filtradas);
     }
 
-    function verCancion(index) {
-      const c = canciones[index];
-      document.getElementById('songTitle').innerText = c.titulo;
-      document.getElementById('songAuthor').innerText = c.autor;
+    function verCancion(cancion) {
+      document.getElementById('viewTitle').innerText = cancion.titulo;
+      document.getElementById('viewAuthor').innerText = cancion.autor || 'Autor desconocido';
       
-      const html = c.estrofas.map(e => `
-        <div class="verse">
-          <div class="verse-type">${e.tipo || 'Estrofa'}</div>
-          <div>${e.texto}</div>
-        </div>
-      `).join('');
+      const lyricsEl = document.getElementById('viewLyrics');
+      lyricsEl.innerHTML = '';
 
-      document.getElementById('songContent').innerHTML = html;
-      document.getElementById('searchView').style.display = 'none';
+      cancion.estrofas.forEach(e => {
+        const block = document.createElement('div');
+        block.className = 'verse-block';
+        
+        const tag = document.createElement('div');
+        tag.className = 'verse-tag';
+        tag.innerText = e.tipo || 'Estrofa';
+
+        const text = document.createElement('div');
+        text.className = 'verse-text';
+        text.innerText = e.texto; // Formato con saltos de línea limpios
+
+        block.appendChild(tag);
+        block.appendChild(text);
+        lyricsEl.appendChild(block);
+      });
+
       document.getElementById('songView').style.display = 'block';
-      window.scrollTo(0, 0);
     }
 
     function cerrarCancion() {
-      document.getElementById('searchView').style.display = 'block';
       document.getElementById('songView').style.display = 'none';
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
     }
   </script>
 </body>

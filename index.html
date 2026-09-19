@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Himnario Iglesia de Jesus en La Linea</title>
 
-  <!-- Iconos para Pantalla de Inicio (PWA / Web Clip) -->
+  <!-- Iconos para Pantalla de Inicio -->
   <link rel="apple-touch-icon" href="logo.png">
   <link rel="icon" type="image/png" href="logo.png">
 
@@ -21,7 +21,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 
-    /* Pantalla de Inicio / Bienvenida con Logo */
+    /* Pantalla de Inicio */
     .hero-screen {
       display: flex;
       flex-direction: column;
@@ -177,7 +177,6 @@
       color: #1a202c;
     }
 
-    /* Formularios de Admin */
     .form-group { margin-bottom: 1rem; }
     .form-group label { display: block; font-weight: bold; margin-bottom: 0.3rem; }
     .form-group input, .form-group textarea {
@@ -204,7 +203,7 @@
     <button class="btn-admin-header" onclick="loginAdmin()">🔒 Admin</button>
   </div>
 
-  <!-- Aplicación Principal (Buscador y Lista) -->
+  <!-- Aplicación Principal -->
   <div id="mainApp">
     <div class="container">
       <button id="addBtn" class="btn-action btn-primary hidden" onclick="crearNuevaCancion()" style="width: 100%; margin-bottom: 1rem; padding: 0.8rem; font-size: 1rem;">➕ Añadir Nueva Canción</button>
@@ -236,7 +235,7 @@
     <div id="viewLyrics"></div>
   </div>
 
-  <!-- Panel de Edición/Creación -->
+  <!-- Panel Admin -->
   <div id="adminView" class="admin-view">
     <button class="btn-action" onclick="cerrarAdmin()" style="margin-bottom: 1rem;">← Cancelar</button>
     <h2 id="adminTitle" style="margin-bottom: 1rem;">Editar Cántico</h2>
@@ -247,18 +246,18 @@
     </div>
 
     <div class="form-group">
-      <label>Autor / Tono / Nota:</label>
+      <label>Autor / Tono:</label>
       <input type="text" id="inputAutor">
     </div>
 
     <div class="form-group">
-      <label>Letra completa (separa cada estrofa con una línea en blanco):</label>
+      <label>Letra completa (separa estrofas con una línea en blanco):</label>
       <textarea id="inputLetra" rows="12"></textarea>
     </div>
 
     <button class="btn-action btn-primary" onclick="guardarCancion()" style="width:100%; margin-bottom:0.5rem; padding:0.8rem;">💾 Guardar Cambios</button>
     <button id="deleteBtn" class="btn-action btn-danger" onclick="eliminarCancionActual()" style="width:100%; margin-bottom:0.5rem; padding:0.8rem;">🗑️ Eliminar</button>
-    <button class="btn-action" onclick="configurarGitHubAPI()" style="width:100%; margin-top:1rem; padding:0.8rem; background:#4a5568; color:white;">⚙️ Configurar API GitHub para Sincronizar</button>
+    <button class="btn-action" onclick="configurarGitHubAPI()" style="width:100%; margin-top:1rem; padding:0.8rem; background:#4a5568; color:white;">⚙️ Configurar Token de GitHub</button>
   </div>
 
   <script>
@@ -268,17 +267,48 @@
     let cancionSeleccionadaIndex = -1;
     let fontSizeMultiplier = 1.0;
 
-    fetch('canciones.json')
-      .then(res => res.json())
-      .then(data => {
-        canciones = data;
-        ordenarCanciones();
-        renderLista(canciones);
-      })
-      .catch(err => console.error('Error cargando canciones:', err));
+    function cargarDatos() {
+      fetch('canciones.json?v=' + Date.now())
+        .then(res => {
+          if (!res.ok) throw new Error("No se pudo cargar canciones.json");
+          return res.json();
+        })
+        .then(data => {
+          if (Array.isArray(data)) {
+            canciones = data;
+          } else if (data && Array.isArray(data.canciones)) {
+            canciones = data.canciones;
+          } else {
+            canciones = [];
+          }
+          ordenarCanciones();
+          renderLista(canciones);
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById('songList').innerHTML = `<li style="color:red; text-align:center;">Error al cargar canciones.json. Verifica la sintaxis del archivo.</li>`;
+        });
+    }
+
+    function getTitulo(c) {
+      return c.titulo || c.title || c.nombre || "Sin título";
+    }
+
+    function getAutor(c) {
+      const a = c.autor || c.author || c.nota || c.tono;
+      if (!a || a.trim() === "" || a.toLowerCase() === "autor desconocido") return "";
+      return a;
+    }
+
+    function getEstrofas(c) {
+      if (Array.isArray(c.estrofas)) return c.estrofas;
+      if (Array.isArray(c.verses)) return c.verses.map(v => ({ tipo: v.name || v.type || 'Estrofa', texto: v.lines || v.text || v.texto || '' }));
+      if (typeof c.letra === 'string') return [{ tipo: 'Letra', texto: c.letra }];
+      return [];
+    }
 
     function ordenarCanciones() {
-      canciones.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es', { sensitivity: 'base' }));
+      canciones.sort((a, b) => getTitulo(a).localeCompare(getTitulo(b), 'es', { sensitivity: 'base' }));
     }
 
     function entrarAlHimnario() {
@@ -288,10 +318,16 @@
     function renderLista(items) {
       const listEl = document.getElementById('songList');
       listEl.innerHTML = '';
+      
+      if (items.length === 0) {
+        listEl.innerHTML = `<li style="text-align:center; padding:1rem; color:#718096;">No hay canciones disponibles.</li>`;
+        return;
+      }
+
       items.forEach((c) => {
         const li = document.createElement('li');
         li.className = 'song-item';
-        li.innerHTML = `<span>${c.titulo}</span> <span style="color:#a0aec0; font-size:0.85rem;">➔</span>`;
+        li.innerHTML = `<span>${getTitulo(c)}</span> <span style="color:#a0aec0; font-size:0.85rem;">➔</span>`;
         li.onclick = () => verCancion(c);
         listEl.appendChild(li);
       });
@@ -300,17 +336,22 @@
     function filtrarCanciones() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const filtradas = canciones.filter(c => {
-        const porTitulo = c.titulo.toLowerCase().includes(query);
-        const porLetra = c.estrofas && c.estrofas.some(e => e.texto.toLowerCase().includes(query));
+        const porTitulo = getTitulo(c).toLowerCase().includes(query);
+        const ests = getEstrofas(c);
+        const porLetra = ests.some(e => (e.texto || e.lines || '').toLowerCase().includes(query));
         return porTitulo || porLetra;
       });
       renderLista(filtradas);
     }
 
     function verCancion(cancion) {
-      cancionSeleccionadaIndex = canciones.findIndex(c => c.titulo === cancion.titulo);
-      document.getElementById('viewTitle').innerText = cancion.titulo;
-      document.getElementById('viewAuthor').innerText = cancion.autor || 'Autor desconocido';
+      cancionSeleccionadaIndex = canciones.findIndex(c => getTitulo(c) === getTitulo(cancion));
+      const c = canciones[cancionSeleccionadaIndex] || cancion;
+      
+      document.getElementById('viewTitle').innerText = getTitulo(c);
+      
+      const autorTexto = getAutor(c);
+      document.getElementById('viewAuthor').innerText = autorTexto ? `Autor / Tono: ${autorTexto}` : '';
       
       renderLyrics();
 
@@ -328,19 +369,20 @@
       const lyricsEl = document.getElementById('viewLyrics');
       lyricsEl.innerHTML = '';
 
-      if (c && c.estrofas) {
-        c.estrofas.forEach(e => {
+      if (c) {
+        const estrofas = getEstrofas(c);
+        estrofas.forEach(e => {
           const block = document.createElement('div');
           block.className = 'verse-block';
           
           const tag = document.createElement('div');
           tag.className = 'verse-tag';
-          tag.innerText = e.tipo || 'Estrofa';
+          tag.innerText = e.tipo || e.type || 'Estrofa';
 
           const text = document.createElement('div');
           text.className = 'verse-text';
           text.style.fontSize = (1.15 * fontSizeMultiplier) + 'rem';
-          text.innerText = e.texto;
+          text.innerText = e.texto || e.lines || '';
 
           block.appendChild(tag);
           block.appendChild(text);
@@ -386,10 +428,11 @@
     function editarCancionActual() {
       const c = canciones[cancionSeleccionadaIndex];
       document.getElementById('adminTitle').innerText = "Editar Cántico";
-      document.getElementById('inputTitulo').value = c.titulo;
-      document.getElementById('inputAutor').value = c.autor || '';
+      document.getElementById('inputTitulo').value = getTitulo(c);
+      document.getElementById('inputAutor').value = getAutor(c);
       
-      let textoCompleto = c.estrofas ? c.estrofas.map(e => e.texto).join('\n\n') : '';
+      const ests = getEstrofas(c);
+      let textoCompleto = ests.map(e => e.texto || e.lines || '').join('\n\n');
       document.getElementById('inputLetra').value = textoCompleto;
 
       document.getElementById('deleteBtn').classList.remove('hidden');
@@ -427,10 +470,10 @@
       renderLista(canciones);
     }
 
-    function eliminarCancionActual() {
+    async function eliminarCancionActual() {
       if (confirm("¿Seguro que deseas eliminar esta canción?")) {
         canciones.splice(cancionSeleccionadaIndex, 1);
-        intentarGuardarEnGitHub();
+        await intentarGuardarEnGitHub();
         alert("Canción eliminada.");
         cerrarAdmin();
         cerrarCancion();
@@ -441,16 +484,16 @@
     function configurarGitHubAPI() {
       const token = prompt("Introduce tu Personal Access Token de GitHub:");
       if (token) {
-        localStorage.setItem('gh_token', token);
-        alert("Token guardado correctamente en este dispositivo.");
+        localStorage.setItem('gh_token', token.trim());
+        alert("Token guardado en este dispositivo.");
       }
     }
 
     async function intentarGuardarEnGitHub() {
       const token = localStorage.getItem('gh_token');
       if (!token) {
-        alert("Nota: Configura la API con tu Token de GitHub para guardar de forma permanente.");
-        return;
+        alert("Aviso: Configura tu Token de GitHub para guardar permanentemente en el servidor.");
+        return false;
       }
 
       const repo = "saraieleazar-ctrl/Alabanzas-al-Rey-de-Reyes";
@@ -463,7 +506,7 @@
         
         const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(canciones, null, 2))));
 
-        await fetch(url, {
+        const putRes = await fetch(url, {
           method: 'PUT',
           headers: {
             'Authorization': `token ${token}`,
@@ -475,14 +518,20 @@
             sha: fileData.sha
           })
         });
+
+        return putRes.ok;
       } catch (e) {
         console.error("Error sincronizando con GitHub:", e);
+        return false;
       }
     }
 
     function cerrarAdmin() {
       document.getElementById('adminView').style.display = 'none';
     }
+
+    // Inicializar
+    cargarDatos();
   </script>
 </body>
 </html>

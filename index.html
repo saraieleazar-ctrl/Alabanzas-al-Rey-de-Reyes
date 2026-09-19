@@ -16,6 +16,47 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 
+    /* Pantalla de Inicio / Bienvenida con Logo */
+    .hero-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+      background: var(--bg);
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 200;
+    }
+
+    .church-logo {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 1.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .church-subtitle { font-size: 1rem; color: #718096; font-weight: 600; letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .main-title { font-size: 1.6rem; color: var(--primary); font-weight: 800; margin-bottom: 2rem; }
+
+    .btn-enter {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.9rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-enter:hover { background: var(--accent); transform: translateY(-2px); }
+
     /* Cabecera Superior */
     .top-bar {
       background: var(--primary);
@@ -29,13 +70,13 @@
       top: 0;
       z-index: 50;
     }
-    .top-bar h1 { font-size: 1.1rem; font-weight: 700; text-align: left; }
+    .top-bar h1 { font-size: 1.05rem; font-weight: 700; }
     
     .btn-admin-header {
       background: #2b6cb0;
       color: white;
       border: none;
-      padding: 0.5rem 0.9rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 6px;
       font-size: 0.85rem;
       cursor: pointer;
@@ -76,7 +117,7 @@
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: var(--card-bg);
-      z-index: 100;
+      z-index: 300;
       overflow-y: auto;
       padding: 1.5rem;
     }
@@ -143,6 +184,14 @@
   </style>
 </head>
 <body>
+
+  <!-- Pantalla de Bienvenida con Logo -->
+  <div id="welcomeScreen" class="hero-screen">
+    <img src="logo.png" alt="Logo Centro Cristiano Nuevo Pacto" class="church-logo" onerror="this.style.display='none'">
+    <div class="church-subtitle">CENTRO CRISTIANO NUEVO PACTO</div>
+    <h1 class="main-title">Himnario Iglesia de Jesus en La Linea</h1>
+    <button class="btn-enter" onclick="entrarAlHimnario()">Ver Canciones</button>
+  </div>
 
   <!-- Cabecera Superior -->
   <div class="top-bar">
@@ -225,6 +274,10 @@
 
     function ordenarCanciones() {
       canciones.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es', { sensitivity: 'base' }));
+    }
+
+    function entrarAlHimnario() {
+      document.getElementById('welcomeScreen').style.display = 'none';
     }
 
     function renderLista(items) {

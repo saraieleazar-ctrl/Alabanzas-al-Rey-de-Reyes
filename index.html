@@ -54,8 +54,31 @@
     .btn-enter:hover { background: var(--accent); transform: translateY(-2px); }
 
     /* App Principal */
-    header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    header h1 { font-size: 1.2rem; }
+    header { 
+      background: var(--primary); 
+      color: white; 
+      padding: 1rem; 
+      text-align: center; 
+      position: sticky; 
+      top: 0; 
+      z-index: 10; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { font-size: 1.1rem; flex-grow: 1; text-align: center; }
+
+    .btn-header-admin {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
     .container { max-width: 700px; margin: 0 auto; padding: 1rem; padding-bottom: 4rem; }
     
@@ -96,6 +119,20 @@
       padding: 1.5rem;
     }
 
+    .song-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .font-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
     .btn-action {
       background: #e2e8f0;
       border: none;
@@ -103,8 +140,6 @@
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      margin-right: 0.5rem;
-      margin-bottom: 1rem;
     }
     .btn-primary { background: var(--primary); color: white; }
     .btn-danger { background: #e53e3e; color: white; }
@@ -154,7 +189,9 @@
   <!-- Aplicación Principal -->
   <div id="mainApp" class="hidden">
     <header>
+      <div style="width: 70px;"></div>
       <h1>Himnario Iglesia de Jesus en La Linea</h1>
+      <button class="btn-header-admin" onclick="loginAdmin()">🔒 Admin</button>
     </header>
 
     <div class="container">
@@ -163,15 +200,24 @@
       <ul id="songList" class="song-list"></ul>
 
       <footer>
-        <p>© Centro Cristiano Nuevo Pacto | <a href="#" onclick="loginAdmin()">🔒 Administración</a></p>
+        <p>© Centro Cristiano Nuevo Pacto</p>
       </footer>
     </div>
   </div>
 
   <!-- Vista de la Canción -->
   <div id="songView" class="song-view">
-    <button class="btn-action" onclick="cerrarCancion()">← Volver</button>
-    <button id="editBtn" class="btn-action btn-primary hidden" onclick="editarCancionActual()">✏️ Editar Canción</button>
+    <div class="song-toolbar">
+      <div>
+        <button class="btn-action" onclick="cerrarCancion()">← Volver</button>
+        <button id="editBtn" class="btn-action btn-primary hidden" onclick="editarCancionActual()">✏️ Editar</button>
+      </div>
+      <div class="font-controls">
+        <button class="btn-action" onclick="cambiarTamanoLetra(-0.1)">A-</button>
+        <button class="btn-action" onclick="cambiarTamanoLetra(0.1)">A+</button>
+      </div>
+    </div>
+    
     <h2 id="viewTitle" class="song-title-view"></h2>
     <div id="viewAuthor" class="song-author-view"></div>
     <div id="viewLyrics"></div>
@@ -179,7 +225,7 @@
 
   <!-- Panel de Edición/Creación (Administración) -->
   <div id="adminView" class="admin-view">
-    <button class="btn-action" onclick="cerrarAdmin()">← Cancelar</button>
+    <button class="btn-action" onclick="cerrarAdmin()" style="margin-bottom: 1rem;">← Cancelar</button>
     <h2 id="adminTitle" style="margin-bottom: 1rem;">Editar Cántico</h2>
     
     <div class="form-group">
@@ -197,18 +243,20 @@
       <textarea id="inputLetra" rows="12"></textarea>
     </div>
 
-    <button class="btn-action btn-primary" onclick="guardarCancion()">💾 Guardar Cambios</button>
-    <button id="deleteBtn" class="btn-action btn-danger" onclick="eliminarCancionActual()">🗑️ Eliminar</button>
-    <button class="btn-action" onclick="descargarJSONActualizado()" style="margin-top:1rem; width:100%;">📥 Exportar canciones.json para publicar a todos</button>
+    <button class="btn-action btn-primary" onclick="guardarCancion()" style="width:100%; margin-bottom:0.5rem; padding:0.8rem;">💾 Guardar Cambios</button>
+    <button id="deleteBtn" class="btn-action btn-danger" onclick="eliminarCancionActual()" style="width:100%; margin-bottom:0.5rem; padding:0.8rem;">🗑️ Eliminar</button>
+    <button class="btn-action" onclick="configurarGitHubAPI()" style="width:100%; margin-top:1rem; padding:0.8rem; background:#4a5568; color:white;">⚙️ Configurar API GitHub para Sincronizar</button>
+    <button class="btn-action" onclick="descargarJSONActualizado()" style="width:100%; margin-top:0.5rem; padding:0.8rem;">📥 Exportar canciones.json Manual</button>
   </div>
 
   <script>
-    const CLAVE_ADMIN = "1234"; // Tu contraseña de administración
+    const CLAVE_ADMIN = "1234";
     let esAdmin = false;
     let canciones = [];
     let cancionSeleccionadaIndex = -1;
+    let fontSizeMultiplier = 1.0;
 
-    // Cargar canciones (del almacenamiento local si se han hecho cambios, o del JSON original)
+    // Cargar canciones
     const localData = localStorage.getItem('canciones_custom');
     if (localData) {
       canciones = JSON.parse(localData);
@@ -269,11 +317,22 @@
       document.getElementById('viewTitle').innerText = cancion.titulo;
       document.getElementById('viewAuthor').innerText = cancion.autor || 'Autor desconocido';
       
+      renderLyrics();
+
+      if (esAdmin) {
+        document.getElementById('editBtn').classList.remove('hidden');
+      }
+
+      document.getElementById('songView').style.display = 'block';
+    }
+
+    function renderLyrics() {
+      const c = canciones[cancionSeleccionadaIndex];
       const lyricsEl = document.getElementById('viewLyrics');
       lyricsEl.innerHTML = '';
 
-      if (cancion.estrofas) {
-        cancion.estrofas.forEach(e => {
+      if (c && c.estrofas) {
+        c.estrofas.forEach(e => {
           const block = document.createElement('div');
           block.className = 'verse-block';
           
@@ -283,6 +342,7 @@
 
           const text = document.createElement('div');
           text.className = 'verse-text';
+          text.style.fontSize = (1.15 * fontSizeMultiplier) + 'rem';
           text.innerText = corregirEspaciosTexto(e.texto);
 
           block.appendChild(tag);
@@ -290,12 +350,11 @@
           lyricsEl.appendChild(block);
         });
       }
+    }
 
-      if (esAdmin) {
-        document.getElementById('editBtn').classList.remove('hidden');
-      }
-
-      document.getElementById('songView').style.display = 'block';
+    function cambiarTamanoLetra(delta) {
+      fontSizeMultiplier = Math.max(0.7, Math.min(2.0, fontSizeMultiplier + delta));
+      renderLyrics();
     }
 
     function cerrarCancion() {
@@ -318,7 +377,7 @@
     }
 
     function crearNuevaCancion() {
-      cancionSeleccionadaIndex = -1; // Indica canción nueva
+      cancionSeleccionadaIndex = -1;
       document.getElementById('adminTitle').innerText = "Añadir Nueva Canción";
       document.getElementById('inputTitulo').value = '';
       document.getElementById('inputAutor').value = '';
@@ -341,7 +400,7 @@
       document.getElementById('adminView').style.display = 'block';
     }
 
-    function guardarCancion() {
+    async function guardarCancion() {
       const titulo = document.getElementById('inputTitulo').value.trim();
       const autor = document.getElementById('inputAutor').value.trim();
       const letraBruta = document.getElementById('inputLetra').value.trim();
@@ -364,6 +423,10 @@
 
       ordenarCanciones();
       localStorage.setItem('canciones_custom', JSON.stringify(canciones));
+
+      // Intentar guardar vía API de GitHub si hay token configurado
+      await intentarGuardarEnGitHub();
+
       alert("¡Canción guardada correctamente!");
       cerrarAdmin();
       cerrarCancion();
@@ -374,10 +437,50 @@
       if (confirm("¿Seguro que deseas eliminar esta canción?")) {
         canciones.splice(cancionSeleccionadaIndex, 1);
         localStorage.setItem('canciones_custom', JSON.stringify(canciones));
+        intentarGuardarEnGitHub();
         alert("Canción eliminada.");
         cerrarAdmin();
         cerrarCancion();
         renderLista(canciones);
+      }
+    }
+
+    function configurarGitHubAPI() {
+      const token = prompt("Introduce tu Personal Access Token de GitHub (con permisos de repo):");
+      if (token) {
+        localStorage.setItem('gh_token', token);
+        alert("Token guardado correctamente. Ahora tus cambios se actualizarán en directo en GitHub para todos.");
+      }
+    }
+
+    async function intentarGuardarEnGitHub() {
+      const token = localStorage.getItem('gh_token');
+      if (!token) return;
+
+      const repo = "saraieleazar-ctrl/Alabanzas-al-Rey-de-Reyes";
+      const path = "canciones.json";
+      const url = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+      try {
+        const getFile = await fetch(url, { headers: { 'Authorization': `token ${token}` } });
+        const fileData = await getFile.json();
+        
+        const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(canciones, null, 2))));
+
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: "Actualización automática de canciones desde la app",
+            content: contentBase64,
+            sha: fileData.sha
+          })
+        });
+      } catch (e) {
+        console.error("No se pudo sincronizar automáticamente con GitHub:", e);
       }
     }
 

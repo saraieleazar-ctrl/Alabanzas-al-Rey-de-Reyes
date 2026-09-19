@@ -3,396 +3,372 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Himnario Iglesia de Jesus en La Linea</title>
+  <title>Himnario de Alabanzas</title>
   <style>
     :root {
-      --primary: #1a365d;
-      --accent: #2b6cb0;
-      --bg: #f7fafc;
+      --primary-color: #1a365d;
+      --bg-color: #f7fafc;
       --card-bg: #ffffff;
-      --text: #2d3748;
+      --text-color: #2d3748;
+      --border-color: #e2e8f0;
+      --font-size-base: 18px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-
-    /* Pantalla de Inicio / Bienvenida */
-    .hero-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 80vh;
-      padding: 2rem;
-      text-align: center;
+    body.dark-mode {
+      --primary-color: #63b3ed;
+      --bg-color: #1a202c;
+      --card-bg: #2d3748;
+      --text-color: #f7fafc;
+      --border-color: #4a5568;
     }
 
-    .church-logo {
-      width: 140px;
-      height: 140px;
-      margin-bottom: 1.5rem;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      font-size: var(--font-size-base);
     }
 
-    .church-subtitle { font-size: 1.1rem; color: #718096; font-weight: 600; letter-spacing: 1px; margin-bottom: 0.5rem; }
-    .main-title { font-size: 1.8rem; color: var(--primary); font-weight: 800; margin-bottom: 2rem; }
-
-    .btn-enter {
-      background: var(--primary);
+    header {
+      background-color: var(--primary-color);
       color: white;
-      border: none;
-      padding: 1rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s, background 0.2s;
-    }
-    .btn-enter:hover { background: var(--accent); transform: translateY(-2px); }
-
-    /* App Principal */
-    header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    header h1 { font-size: 1.2rem; }
-
-    .container { max-width: 700px; margin: 0 auto; padding: 1rem; padding-bottom: 4rem; }
-    
-    .search-box {
-      width: 100%;
-      padding: 0.8rem 1.2rem;
-      font-size: 1rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      outline: none;
-    }
-    .search-box:focus { border-color: var(--accent); }
-
-    .song-list { list-style: none; }
-    .song-item {
-      background: var(--card-bg);
       padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    body.dark-mode header {
+      background-color: #2d3748;
+      color: var(--primary-color);
+    }
+
+    .header-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .search-box {
+      max-width: 800px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      margin-bottom: 0.5rem;
+      box-sizing: border-box;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .song-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
       cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      font-weight: 600;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .song-item:hover { background: #edf2f7; }
 
-    /* Vista de Letra */
-    .song-view, .admin-view {
+    .song-detail {
       display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--card-bg);
-      z-index: 100;
-      overflow-y: auto;
+      background-color: var(--card-bg);
       padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      line-height: 1.6;
+    }
+
+    .song-verse {
+      margin-bottom: 1.5rem;
+      white-space: pre-wrap;
+    }
+
+    .btn {
+      background: none;
+      border: 1px solid white;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
 
     .btn-action {
-      background: #e2e8f0;
+      background-color: var(--primary-color);
+      color: white;
       border: none;
       padding: 0.6rem 1.2rem;
       border-radius: 6px;
-      font-weight: bold;
       cursor: pointer;
       margin-right: 0.5rem;
+    }
+
+    .admin-view {
+      display: none;
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .font-controls {
+      display: flex;
+      gap: 0.5rem;
       margin-bottom: 1rem;
     }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-danger { background: #e53e3e; color: white; }
-
-    .song-title-view { font-size: 1.6rem; color: var(--primary); margin-bottom: 0.3rem; }
-    .song-author-view { font-size: 0.9rem; color: #718096; margin-bottom: 1.5rem; }
-
-    .verse-block {
-      background: #f8fafc;
-      padding: 1rem 1.2rem;
-      border-left: 4px solid var(--accent);
-      border-radius: 4px;
-      margin-bottom: 1.2rem;
-    }
-
-    .verse-tag { font-size: 0.75rem; font-weight: bold; color: var(--accent); text-transform: uppercase; margin-bottom: 0.4rem; }
-    .verse-text {
-      white-space: pre-line;
-      font-size: 1.15rem;
-      line-height: 1.8;
-      color: #1a202c;
-    }
-
-    /* Formularios de Admin */
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-weight: bold; margin-bottom: 0.3rem; }
-    .form-group input, .form-group textarea {
-      width: 100%; padding: 0.8rem; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 1rem;
-    }
-
-    footer { text-align: center; padding: 1.5rem; font-size: 0.85rem; color: #a0aec0; }
-    footer a { color: inherit; text-decoration: none; }
-
-    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <!-- Pantalla de Bienvenida -->
-  <div id="welcomeScreen" class="hero-screen">
-    <img src="logo.png" alt="Logo Centro Cristiano Nuevo Pacto" class="church-logo" onerror="this.style.display='none'">
-    <div class="church-subtitle">CENTRO CRISTIANO NUEVO PACTO</div>
-    <h1 class="main-title">Himnario Iglesia de Jesus en La Linea</h1>
-    <button class="btn-enter" onclick="abrirHimnario()">Ver Canciones</button>
+  <header>
+    <div class="header-controls">
+      <h1 style="margin: 0; font-size: 1.3rem;">📖 Alabanzas</h1>
+      <div>
+        <button class="btn" onclick="toggleDarkMode()">🌓</button>
+        <button class="btn" onclick="abrirAdmin()">🔒 Admin</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Buscar por título, autor o letra..." oninput="filtrarCanciones()">
   </div>
 
-  <!-- Aplicación Principal -->
-  <div id="mainApp" class="hidden">
-    <header>
-      <h1>Himnario Iglesia de Jesus en La Linea</h1>
-    </header>
+  <div class="container">
+    <div id="listaCanciones"></div>
 
-    <div class="container">
-      <button id="addBtn" class="btn-action btn-primary hidden" onclick="crearNuevaCancion()" style="width: 100%; margin-bottom: 1rem; padding: 0.8rem; font-size: 1rem;">➕ Añadir Nueva Canción</button>
-      <input type="text" id="searchInput" class="search-box" placeholder="Buscar por título o palabra..." oninput="filtrarCanciones()">
-      <ul id="songList" class="song-list"></ul>
-
-      <footer>
-        <p>© Centro Cristiano Nuevo Pacto | <a href="#" onclick="loginAdmin()">🔒 Administración</a></p>
-      </footer>
-    </div>
-  </div>
-const GH_TOKEN = "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";
-  <!-- Vista de la Canción -->
-  <div id="songView" class="song-view">
-    <button class="btn-action" onclick="cerrarCancion()">← Volver</button>
-    <button id="editBtn" class="btn-action btn-primary hidden" onclick="editarCancionActual()">✏️ Editar Canción</button>
-    <h2 id="viewTitle" class="song-title-view"></h2>
-    <div id="viewAuthor" class="song-author-view"></div>
-    <div id="viewLyrics"></div>
-  </div>
-
-  <!-- Panel de Edición/Creación (Administración) -->
-  <div id="adminView" class="admin-view">
-    <button class="btn-action" onclick="cerrarAdmin()">← Cancelar</button>
-    <h2 id="adminTitle" style="margin-bottom: 1rem;">Editar Cántico</h2>
-    
-    <div class="form-group">
-      <label>Título:</label>
-      <input type="text" id="inputTitulo">
+    <div id="detalleCancion" class="song-detail">
+      <button class="btn-action" onclick="volverALista()">⬅️ Volver</button>
+      <div class="font-controls" style="margin-top: 1rem;">
+        <button class="btn-action" onclick="cambiarTamanoLetra(1)">A+</button>
+        <button class="btn-action" onclick="cambiarTamanoLetra(-1)">A-</button>
+      </div>
+      <h2 id="tituloCancion"></h2>
+      <h4 id="autorCancion" style="color: #718096; margin-top: -0.5rem;"></h4>
+      <hr style="border-color: var(--border-color);">
+      <div id="letraCancion"></div>
     </div>
 
-    <div class="form-group">
-      <label>Autor / Tono / Nota:</label>
-      <input type="text" id="inputAutor">
+    <!-- Panel de Edición/Creación (Administración) -->
+    <div id="adminView" class="admin-view">
+      <h3>Panel de Administración</h3>
+      <button class="btn-action" onclick="cerrarAdmin()">Cancelar</button>
+      <button class="btn-action" onclick="nuevaCancion()">➕ Nueva Canción</button>
+      <button class="btn-action" style="background-color: #2b6cb0;" onclick="configurarToken()">🔑 Cambiar Token GitHub</button>
+      <div id="adminLista" style="margin-top: 1rem;"></div>
     </div>
-
-    <div class="form-group">
-      <label>Letra completa (separa cada estrofa con una línea en blanco):</label>
-      <textarea id="inputLetra" rows="12"></textarea>
-    </div>
-
-    <button class="btn-action btn-primary" onclick="guardarCancion()">💾 Guardar Cambios</button>
-    <button id="deleteBtn" class="btn-action btn-danger" onclick="eliminarCancionActual()">🗑️ Eliminar</button>
-    <button class="btn-action" onclick="descargarJSONActualizado()" style="margin-top:1rem; width:100%;">📥 Exportar canciones.json para publicar a todos</button>
   </div>
 
   <script>
-    const CLAVE_ADMIN = "1234"; // Tu contraseña de administración
-    let esAdmin = false;
-    let canciones = [];
-    let cancionSeleccionadaIndex = -1;
+    // Configuración de GitHub para guardar cambios directamente
+    const GH_USER = "saraieleazar-ctrl"; // Reemplaza si no coincide
+    const GH_REPO = "Alabanzas-al-Rey-de-Reyes";
+    let GH_TOKEN = localStorage.getItem("admin_github_token") || "";
 
-    // Cargar canciones (del almacenamiento local si se han hecho cambios, o del JSON original)
-    const localData = localStorage.getItem('canciones_custom');
-    if (localData) {
-      canciones = JSON.parse(localData);
-      ordenarCanciones();
-    } else {
-      fetch('canciones.json')
-        .then(res => res.json())
-        .then(data => {
-          canciones = data;
-          ordenarCanciones();
-          renderLista(canciones);
-        })
-        .catch(err => console.error('Error cargando canciones:', err));
+    let todasLasCanciones = [];
+    let tamañoLetraActual = 18;
+
+    // Cargar canciones al iniciar
+    async function cargarCanciones() {
+      try {
+        const res = await fetch('canciones.json');
+        todasLasCanciones = await res.json();
+        mostrarCanciones(todasLasCanciones);
+      } catch (err) {
+        document.getElementById('listaCanciones').innerHTML = "<p>Error al cargar el archivo canciones.json</p>";
+      }
     }
 
-    function ordenarCanciones() {
-      canciones.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es', { sensitivity: 'base' }));
-    }
-
-    function abrirHimnario() {
-      document.getElementById('welcomeScreen').classList.add('hidden');
-      document.getElementById('mainApp').classList.remove('hidden');
-      renderLista(canciones);
-    }
-
-    function renderLista(items) {
-      const listEl = document.getElementById('songList');
-      listEl.innerHTML = '';
-      items.forEach((c) => {
-        const li = document.createElement('li');
-        li.className = 'song-item';
-        li.innerHTML = `<span>${c.titulo}</span> <span style="color:#a0aec0; font-size:0.85rem;">➔</span>`;
-        li.onclick = () => verCancion(c);
-        listEl.appendChild(li);
+    function mostrarCanciones(lista) {
+      const cont = document.getElementById('listaCanciones');
+      cont.innerHTML = '';
+      lista.forEach((c, i) => {
+        const div = document.createElement('div');
+        div.className = 'song-card';
+        div.innerHTML = `<div><strong>${c.titulo}</strong><br><small style="color:#718096">${c.autor}</small></div> <span>➔</span>`;
+        div.onclick = () => verCancion(i);
+        cont.appendChild(div);
       });
     }
 
     function filtrarCanciones() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtradas = canciones.filter(c => {
-        const porTitulo = c.titulo.toLowerCase().includes(query);
-        const porLetra = c.estrofas && c.estrofas.some(e => e.texto.toLowerCase().includes(query));
-        return porTitulo || porLetra;
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtradas = todasLasCanciones.filter(c => {
+        const enTitulo = c.titulo.toLowerCase().includes(q);
+        const enAutor = c.autor.toLowerCase().includes(q);
+        const enLetra = c.estrofas.some(e => e.texto.toLowerCase().includes(q));
+        return enTitulo || enAutor || enLetra;
       });
-      renderLista(filtradas);
+      mostrarCanciones(filtradas);
     }
 
-    function corregirEspaciosTexto(texto) {
-      if (!texto) return '';
-      return texto
-        .replace(/([a-zà-ÿA-ZÀ-ß])\n([a-zà-ÿA-ZÀ-ß])/g, '$1 $2')
-        .replace(/([a-zà-ÿA-ZÀ-ß])<br\s*\/?>([a-zà-ÿA-ZÀ-ß])/gi, '$1 $2')
-        .trim();
-    }
+    function verCancion(index) {
+      const c = todasLasCanciones[index];
+      document.getElementById('listaCanciones').style.display = 'none';
+      document.querySelector('.search-box').style.display = 'none';
+      const det = document.getElementById('detalleCancion');
+      det.style.display = 'block';
 
-    function verCancion(cancion) {
-      cancionSeleccionadaIndex = canciones.findIndex(c => c.titulo === cancion.titulo);
-      document.getElementById('viewTitle').innerText = cancion.titulo;
-      document.getElementById('viewAuthor').innerText = cancion.autor || 'Autor desconocido';
+      document.getElementById('tituloCancion').innerText = c.titulo;
+      document.getElementById('autorCancion').innerText = c.autor;
       
-      const lyricsEl = document.getElementById('viewLyrics');
-      lyricsEl.innerHTML = '';
-
-      if (cancion.estrofas) {
-        cancion.estrofas.forEach(e => {
-          const block = document.createElement('div');
-          block.className = 'verse-block';
-          
-          const tag = document.createElement('div');
-          tag.className = 'verse-tag';
-          tag.innerText = e.tipo || 'Estrofa';
-
-          const text = document.createElement('div');
-          text.className = 'verse-text';
-          text.innerText = corregirEspaciosTexto(e.texto);
-
-          block.appendChild(tag);
-          block.appendChild(text);
-          lyricsEl.appendChild(block);
-        });
-      }
-
-      if (esAdmin) {
-        document.getElementById('editBtn').classList.remove('hidden');
-      }
-
-      document.getElementById('songView').style.display = 'block';
+      const letraCont = document.getElementById('letraCancion');
+      letraCont.innerHTML = '';
+      c.estrofas.forEach(e => {
+        const v = document.createElement('div');
+        v.className = 'song-verse';
+        v.innerText = e.texto;
+        letraCont.appendChild(v);
+      });
     }
 
-    function cerrarCancion() {
-      document.getElementById('songView').style.display = 'none';
+    function volverALista() {
+      document.getElementById('detalleCancion').style.display = 'none';
+      document.getElementById('listaCanciones').style.display = 'block';
+      document.querySelector('.search-box').style.display = 'block';
     }
 
-    /* SISTEMA DE ADMINISTRACIÓN */
-    function loginAdmin() {
-      const pw = prompt("Introduce la contraseña de administración:");
-      if (pw === CLAVE_ADMIN) {
-        esAdmin = true;
-        alert("¡Acceso concedido! Ahora puedes editar y crear canciones.");
-        document.getElementById('addBtn').classList.remove('hidden');
-        if (cancionSeleccionadaIndex !== -1) {
-          document.getElementById('editBtn').classList.remove('hidden');
+    function cambiarTamanoLetra(delta) {
+      tamañoLetraActual += delta;
+      document.getElementById('letraCancion').style.fontSize = tamañoLetraActual + 'px';
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    // Funciones de Administración
+    function abrirAdmin() {
+      const clave = prompt("Introduce la contraseña de administrador:");
+      if (clave === "1234") {
+        if (!GH_TOKEN) {
+          configurarToken();
         }
-      } else if (pw !== null) {
-        alert("Contraseña incorrecta.");
+        document.getElementById("adminView").style.display = "block";
+        renderizarListaAdmin();
+      } else if (clave !== null) {
+        alert("Contraseña incorrecta");
       }
     }
 
-    function crearNuevaCancion() {
-      cancionSeleccionadaIndex = -1; // Indica canción nueva
-      document.getElementById('adminTitle').innerText = "Añadir Nueva Canción";
-      document.getElementById('inputTitulo').value = '';
-      document.getElementById('inputAutor').value = '';
-      document.getElementById('inputLetra').value = '';
-
-      document.getElementById('deleteBtn').classList.add('hidden');
-      document.getElementById('adminView').style.display = 'block';
-    }
-
-    function editarCancionActual() {
-      const c = canciones[cancionSeleccionadaIndex];
-      document.getElementById('adminTitle').innerText = "Editar Cántico";
-      document.getElementById('inputTitulo').value = c.titulo;
-      document.getElementById('inputAutor').value = c.autor || '';
-      
-      let textoCompleto = c.estrofas ? c.estrofas.map(e => corregirEspaciosTexto(e.texto)).join('\n\n') : '';
-      document.getElementById('inputLetra').value = textoCompleto;
-
-      document.getElementById('deleteBtn').classList.remove('hidden');
-      document.getElementById('adminView').style.display = 'block';
-    }
-
-    function guardarCancion() {
-      const titulo = document.getElementById('inputTitulo').value.trim();
-      const autor = document.getElementById('inputAutor').value.trim();
-      const letraBruta = document.getElementById('inputLetra').value.trim();
-
-      if (!titulo) return alert("El título es obligatorio.");
-
-      const bloques = letraBruta.split(/\n\s*\n/);
-      const estrofas = bloques.map((b, idx) => ({
-        tipo: `v${idx + 1}`,
-        texto: b
-      }));
-
-      const nuevaCancion = { titulo, autor, estrofas };
-
-      if (cancionSeleccionadaIndex >= 0) {
-        canciones[cancionSeleccionadaIndex] = nuevaCancion;
-      } else {
-        canciones.push(nuevaCancion);
+    function configurarToken() {
+      const t = prompt("Ingresa tu Token de GitHub (ghp_...):");
+      if (t) {
+        GH_TOKEN = t.trim();
+        localStorage.setItem("admin_github_token", GH_TOKEN);
+        alert("Token guardado correctamente en tu navegador.");
       }
-
-      ordenarCanciones();
-      localStorage.setItem('canciones_custom', JSON.stringify(canciones));
-      alert("¡Canción guardada correctamente!");
-      cerrarAdmin();
-      cerrarCancion();
-      renderLista(canciones);
-    }
-
-    function eliminarCancionActual() {
-      if (confirm("¿Seguro que deseas eliminar esta canción?")) {
-        canciones.splice(cancionSeleccionadaIndex, 1);
-        localStorage.setItem('canciones_custom', JSON.stringify(canciones));
-        alert("Canción eliminada.");
-        cerrarAdmin();
-        cerrarCancion();
-        renderLista(canciones);
-      }
-    }
-
-    function descargarJSONActualizado() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(canciones, null, 2));
-      const dl = document.createElement('a');
-      dl.setAttribute("href", dataStr);
-      dl.setAttribute("download", "canciones.json");
-      dl.click();
-      dl.remove();
     }
 
     function cerrarAdmin() {
-      document.getElementById('adminView').style.display = 'none';
+      document.getElementById("adminView").style.display = "none";
     }
+
+    function renderizarListaAdmin() {
+      const cont = document.getElementById("adminLista");
+      cont.innerHTML = "";
+      todasLasCanciones.forEach((c, i) => {
+        const item = document.createElement("div");
+        item.style.margin = "0.5rem 0";
+        item.innerHTML = `<strong>${c.titulo}</strong> <button onclick="editarCancion(${i})">✏️ Editar</button>`;
+        cont.appendChild(item);
+      });
+    }
+
+    function editarCancion(i) {
+      const c = todasLasCanciones[i];
+      const nuevoTitulo = prompt("Título:", c.titulo);
+      if (!nuevoTitulo) return;
+      
+      let textoLetra = c.estrofas.map(e => e.texto).join("\n\n");
+      const nuevaLetra = prompt("Letra completa (separa estrofas con doble salto de línea):", textoLetra);
+      
+      if (nuevaLetra !== null) {
+        c.titulo = nuevoTitulo;
+        c.estrofas = nuevaLetra.split("\n\n").map(texto => ({ tipo: "v", texto }));
+        guardarEnGitHub();
+      }
+    }
+
+    function nuevaCancion() {
+      const titulo = prompt("Título de la canción:");
+      if (!titulo) return;
+      const autor = prompt("Autor:", "Autor desconocido") || "Autor desconocido";
+      const letra = prompt("Letra (separa estrofas con doble salto de línea):", "");
+      
+      if (letra !== null) {
+        const estrofas = letra.split("\n\n").map(texto => ({ tipo: "v", texto }));
+        todasLasCanciones.unshift({ titulo, autor, estrofas });
+        guardarEnGitHub();
+      }
+    }
+
+    async function guardarEnGitHub() {
+      if (!GH_TOKEN) {
+        alert("No se ha configurado el Token de GitHub. Configúralo en las opciones de admin.");
+        return;
+      }
+
+      alert("Guardando cambios en GitHub...");
+
+      try {
+        // Obtenemos el SHA del archivo actual necesario para actualizarlo
+        const getFile = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/canciones.json`, {
+          headers: { "Authorization": `token ${GH_TOKEN}` }
+        });
+        const fileData = await getFile.json();
+        const sha = fileData.sha;
+
+        // Convertimos el JSON a Base64 respetando acentos y caracteres especiales
+        const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(todasLasCanciones, null, 2))));
+
+        // Actualizamos el archivo
+        const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/canciones.json`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `token ${GH_TOKEN}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: "Actualización de canciones desde la App",
+            content: contentBase64,
+            sha: sha
+          })
+        });
+
+        if (res.ok) {
+          alert("¡Cambios guardados con éxito en GitHub!");
+          location.reload();
+        } else {
+          alert("Error al guardar en GitHub. Revisa si el Token es correcto.");
+        }
+      } catch (e) {
+        alert("Error de conexión al intentar guardar.");
+      }
+    }
+
+    // Inicializar
+    cargarCanciones();
   </script>
 </body>
 </html>

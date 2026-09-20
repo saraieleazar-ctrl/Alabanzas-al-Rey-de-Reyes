@@ -49,23 +49,23 @@
   },
   {
     "titulo": "A QUIÉN IRÉ EN NECESIDAD",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "¿A QUIÉN IRÉ EN NECESIDAD?¿A QUIÉN IRÉ EN BUSCA DE PAZ?¿Y QUIÉN PODRÁ MI VIDA SACIAR DE VERDAD?"
+        "texto": "¿A QUIÉN IRÉ EN NECESIDAD?\n¿A QUIÉN IRÉ EN BUSCA DE PAZ?\n¿Y QUIÉN PODRÁ MI VIDA SACIAR DE VERDAD?"
       },
       {
         "tipo": "v2",
-        "texto": "¿QUIÉN MÁS TENDRÁ DE MI COMPASIÓN?¿Y ENTENDERÁ MI CORAZÓN?¿QUIÉN CAMBIARÁ MI ETERNIDAD SINO TU? JESÚS"
+        "texto": "¿QUIÉN MÁS TENDRÁ DE MI COMPASIÓN?\n¿Y ENTENDERÁ MI CORAZÓN?\n¿QUIÉN CAMBIARÁ MI ETERNIDAD SINO TU JESÚS?"
       },
       {
         "tipo": "v3",
-        "texto": "CRISTO ¿A DONDE MÁS PODRÍA IR?CRISTO ¿QUE OTRO LUGAR PUEDE EXISTIR?"
+        "texto": "CRISTO ¿A DONDE MÁS PODRÍA IR?\nCRISTO ¿QUE OTRO LUGAR PUEDE EXISTIR?"
       },
       {
         "tipo": "v4",
-        "texto": "SI SOLO TU TIENES PALABRAS DE AMORCAMINO AL PADRE Y VERDAD ERES TÚ"
+        "texto": "SI SOLO TU TIENES PALABRAS DE AMOR\nCAMINO AL PADRE Y VERDAD ERES TÚ"
       },
       {
         "tipo": "v5",

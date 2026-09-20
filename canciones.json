@@ -75,11 +75,11 @@
   },
   {
     "titulo": "A QUIEN IRE OH A QUIEN IRE",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "A QUIEN IRE, OH AQUIEN IREA QUIEN IRE SINO A JESUSEL ME SALVÓ MI ALMA TRANSFORMOA QUIEN IRÉ SINO A JESÚS"
+        "texto": "A QUIEN IRE, OH AQUIEN IRE\nA QUIEN IRE SINO A JESUS\nEL ME SALVÓ MI ALMA TRANSFORMO\nA QUIEN IRÉ SINO A JESÚS"
       }
     ]
   },

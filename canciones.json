@@ -195,15 +195,15 @@
   },
   {
     "titulo": "ABRE MIS OJOS OH CRISTO",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "ABRE MIS OJOS OH CRISTOABRE MIS OJOS SEÑORYO QUIERO VERTE (X2)"
+        "texto": "ABRE MIS OJOS OH CRISTO\nABRE MIS OJOS SEÑOR\nYO QUIERO VERTE (X2)"
       },
       {
         "tipo": "v2",
-        "texto": "YO QUIERO CONTEMPLAR TU LUZQUIERO CONTEMPLAR TU HERMOSURADÁNDOTE ADORACIÓNPORQUE SÓLO TÚ ERES SANTOSANTO, SANTO, SANTO (BIS 2)YO QUIERO VERTE"
+        "texto": "YO QUIERO CONTEMPLAR TU LUZ\nQUIERO CONTEMPLAR TU HERMOSURA\nDÁNDOTE ADORACIÓN PUES SÓLO TÚ ERES SANTO SANTO \nSANTO, SANTO, SANTO (BIS 2)\nYO QUIERO VERTE"
       }
     ]
   },

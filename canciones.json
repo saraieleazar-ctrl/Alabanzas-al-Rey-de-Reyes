@@ -542,20 +542,20 @@
     ]
   },
   {
-    "titulo": "ALABARÉ ALABARÉ A MI SEÑOR",
+    "titulo": "ALABARÉ ALABARÉ A MI SEÑOR. JUAN VIO EL NUMERO DE LOS REDIMIDOS",
     "autor": "DESCONOCIDO",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "JUAN VIÓ EL NUMERO DE LOS REDIMIDOSY DE LOS QUE ALABABAN AL SEÑORUNOS CANTABAN OTROS ORABANPERO TODOS ALABABAN AL SEÑOR"
+        "texto": "JUAN VIÓ EL NUMERO DE LOS REDIMIDOS\nY DE LOS QUE ALABABAN AL SEÑOR\nUNOS CANTABAN OTROS ORABAN\nPERO TODOS ALABABAN AL SEÑOR"
       },
       {
-        "tipo": "c1a",
-        "texto": "ALABARÉ,  ALABARÉ, ALABARÉ A MI SEÑOR//"
+        "tipo": "v2",
+        "texto": "ALABARÉ, ALABARÉ, ALABARÉ A MI SEÑOR\nALABARÉ, ALABARÉ, ALABARÉ A MI SEÑOR"
       },
       {
-        "tipo": "c1b",
-        "texto": "ALELUYA ALELUYA ALELUYAALELUYA ALELUYA AL SEÑORALELUYA ALELUYA ALELUYAALELUYA A NUESTRO SALVADOR"
+        "tipo": "v3",
+        "texto": "ALELUYA ALELUYA ALELUYA\nALELUYA ALELUYA AL SEÑOR\nALELUYA ALELUYA ALELUYA\nALELUYA A NUESTRO SALVADOR"
       }
     ]
   },

@@ -528,20 +528,16 @@
     ]
   },
   {
-    "titulo": "ALABARE AL SEÑOR",
-    "autor": "Autor desconocido",
+    "titulo": "ALABARE AL SEÑOR EN MI VIDA . OH BENDICE AL SEÑOR ALMA MIA",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "ALABARÉ AL SEÑOR EN MI VIDACANTARÉ A MI DIOS MIENTRAS VIVA"
+        "texto": "ALABARÉ AL SEÑOR EN MI VIDA \nCANTARÉ A MI DIOS MIENTRAS VIVA\nDULCE SERÁ MI MEDITACIÓN EN EL\nME GOZARÉ ME GOZARÉ EN EL SEÑOR"
       },
       {
         "tipo": "v2",
-        "texto": "DULCE SERÁ MI MEDITACIÓN EN ELME GOZARÉME GOZARÉ EN EL SEÑOR"
-      },
-      {
-        "tipo": "v3",
-        "texto": "OH BENDICE AL SEÑOR ALMA MÍAOH ALMA MÍA BENDICE AL SEÑOR(X2)"
+        "texto": "OH BENDICE AL SEÑOR ALMA MÍA\nOH ALMA MÍA BENDICE AL SEÑOR(X2)"
       }
     ]
   },

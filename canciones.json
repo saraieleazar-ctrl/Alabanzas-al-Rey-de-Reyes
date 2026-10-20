@@ -463,11 +463,11 @@
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "ALABA A DIOS ADORA A SU MAJESTADEL REINA CON PODER (X3)"
+        "texto": "ALABA A DIOS ADORA A SU MAJESTAD\nEL REINA CON PODER (X3)"
       },
       {
-        "tipo": "c1",
-        "texto": "ALGO QUE QUIERO HACER POR SIEMPREES HABITAR EN SU PRESENCIAY CONTEMPLAR US HERMOSURAY CONOCERLA EN SU GLORIA"
+        "tipo": "v2",
+        "texto": "ALGO QUE QUIERO HACER POR SIEMPRE ES\nHABITAR EN SU PRESENCIA Y CONTEMPLAR SU HERMOSURA\nY CONOCERLE EN SU GLORIA"
       }
     ]
   },

@@ -325,15 +325,15 @@
   },
   {
     "titulo": "AL CORDERO SEGUIRE",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "A SU VOZ VOY A SEGUIRA SU NOMBRE CLAMAREUNA COSA DEBO HACERAL CORDERO SEGUIRE"
+        "texto": "A SU VOZ VOY A SEGUIR\nA SU NOMBRE CLAMARE\nUNA COSA DEBO HACER\nAL CORDERO SEGUIRE"
       },
       {
         "tipo": "v2",
-        "texto": "AL CORDERO SEGUIRE//UNA COSA DEBO HACERAL CORDERO SEGUIRE//"
+        "texto": "AL CORDERO SEGUIRE//\nUNA COSA DEBO HACER\nAL CORDERO SEGUIRE//"
       }
     ]
   },

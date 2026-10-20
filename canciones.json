@@ -472,6 +472,20 @@
     ]
   },
   {
+    "titulo": "ALABAD A JEHOVA NACIONES TODAS PUEBLOS TODOS ALABADLE",
+    "autor": "",
+    "estrofas": [
+      {
+        "tipo": "v1",
+        "texto": "ALABAD A JEHOVA\nNACIONES TODAS PUEBLOS TODOS ALABADLE\nPORQUE HA ENGRANDECIDO SOBRE NOSOTROS \nSU MISERICORDIA"
+      },
+      {
+        "tipo": "v2",
+        "texto": "Y LA VERDAD DE JEHOVA\nES PARA SIEMPRE ALELUYA AMEN\nY LA VERDAD DE JEHOVA\nES PARA SIEMPRE ALELUYA AMEN"
+      }
+    ]
+  },
+  {
     "titulo": "ALABAD AL SEÑOR AUN CON DANZAS. CON JUBILO DAVID DANZO. CON DANZAS Y PANDEROS",
     "autor": "DESCONOCIDO",
     "estrofas": [
@@ -486,20 +500,6 @@
       {
         "tipo": "v3",
         "texto": "CON JUBILO DAVID DANZO DELANTE DEL SEÑOR\nSU CORAZÓN REBOSABA CANTANDO CON FERVOR\nMICAL POR LA VENTANA AL VER AL REY DANZAR\nLO MENOSPRECIABA POR SU FORMA DE ALABAR"
-      }
-    ]
-  },
-  {
-    "titulo": "ALABAD AL SEÑOR NACIONES TODAS PUEBLOS TODOS",
-    "autor": "Autor desconocido",
-    "estrofas": [
-      {
-        "tipo": "v1",
-        "texto": "ALABAD AL SEÑORNACIONES TODAS PUEBLOS TODOS ALABADLEPORQUE HA ENGRANDECIDO SOBRE NOSOTROS SU MISERICORDIA"
-      },
-      {
-        "tipo": "v2",
-        "texto": "Y LA VERDAD DEL SEÑORES PARA SIEMPRE ALELUYA AMEN (X2)"
       }
     ]
   },

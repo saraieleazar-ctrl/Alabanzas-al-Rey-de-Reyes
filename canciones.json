@@ -528,20 +528,6 @@
     ]
   },
   {
-    "titulo": "ALABADO SEA DIOS",
-    "autor": "Autor desconocido",
-    "estrofas": [
-      {
-        "tipo": "v1",
-        "texto": "ALABADO SEA DIOS PODEROSO  QUIEN HA SIDO SIEMPRE Y SERÁALABADO SEA DIOS PODEROSOPOR SIEMPRE REINARÁ."
-      },
-      {
-        "tipo": "v2",
-        "texto": "PADRE EN LOS CIELOS TE AMAMOSEXALTADO SEA TU NOMBRE EN LA TIERRAQUE TU REINOSE ESTABLEZCAEN LA ALABANZAA TU PUEBLOTUS MARAVILLAS DECLARA"
-      }
-    ]
-  },
-  {
     "titulo": "ALABARE AL SEÑOR",
     "autor": "Autor desconocido",
     "estrofas": [
@@ -8794,6 +8780,20 @@
       {
         "tipo": "v2",
         "texto": "PADRE CADA DIA QUE PASA TE AMO MAS//PUES TU ME AMAS ASI COMO ME HAS CREADOCON MIS ACIERTOS Y MIS FALLOS"
+      }
+    ]
+  },
+  {
+    "titulo": "PADRE EN LOS CIELOS TE ADORAMOS. ALABADO SEAS DIOS PODEROSO",
+    "autor": "",
+    "estrofas": [
+      {
+        "tipo": "v1",
+        "texto": "PADRE EN LOS CIELOS TE ADORAMOS\nEXALTADO SEA TU NOMBRE EN LA TIERRA\nQUE TU REINO SE ESTABLEZCA EN LA ALABANZA\nA TU PUEBLO TUS MARAVILLAS DECLARA"
+      },
+      {
+        "tipo": "v2",
+        "texto": "ALABADO SEAS DIOS PODEROSO\nQUIEN HAS SIDO SIEMPRE Y SERAS\nALABADO SEAS DIOS PODEROSO POR SIEMPRE REINARAS"
       }
     ]
   },

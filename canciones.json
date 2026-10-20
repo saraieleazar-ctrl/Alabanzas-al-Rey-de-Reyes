@@ -389,19 +389,15 @@
   },
   {
     "titulo": "AL QUE ES DIGNO",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "AL QUE ES DIGNO DE RECIBIR LA GLORIAAL QUE ES DIGNODE RECIBIR HONOR (BIS)"
+        "texto": "AL QUE ES DIGNO DE RECIBIR LA GLORIA\nAL QUE ES DIGNODE RECIBIR HONOR (BIS)"
       },
       {
         "tipo": "v2",
-        "texto": "LEVANTEMOS NUESTRAS MANOSY ADOREMOSA JESÚS CORDERODE GLORIAY EXALTEMOSSU INCOMPARABLE MAJESTAD."
-      },
-      {
-        "tipo": "v3",
-        "texto": "AL QUE VIVE POR SIEMPREAL GRAN YO SOY (BIS 3)A JESÚS."
+        "texto": "LEVANTEMOS NUESTRAS MANOS Y ADOREMOS\nA JESÚS CORDERO DE GLORIA\nY EXALTEMOS SU INCOMPARABLE MAJESTAD.\nAL QUE VIVE POR SIEMPRE AL GRAN YO SOY (BIS 3)\nA JESÚS."
       }
     ]
   },

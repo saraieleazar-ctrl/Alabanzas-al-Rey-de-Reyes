@@ -301,15 +301,15 @@
   },
   {
     "titulo": "AL BORDE DE TU GRAN TRONO",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "AL BORDE DE TU GRAN TRONOME POSTRARÉ HOY A TITU REINAS SOBRE PRINCIPADOSSENTADO A LA DIESTRA DE DIOS"
+        "texto": "AL BORDE DE TU GRAN TRONO\nME POSTRARÉ HOY A TI\nTU REINAS SOBRE PRINCIPADOS\nSENTADO A LA DIESTRA DE DIOS"
       },
       {
         "tipo": "v2",
-        "texto": "EXALTATE OH GRAN CORDERO TU VIVES HOY Y VIVIRÁSCORONATÉ CON MI ALABANZATU NOMBRE ES EL VENCEDOR"
+        "texto": "EXALTATE OH GRAN CORDERO \nTU VIVES HOY Y VIVIRÁS\nCORONATÉ CON MI ALABANZA\nTU NOMBRE ES EL VENCEDOR"
       }
     ]
   },

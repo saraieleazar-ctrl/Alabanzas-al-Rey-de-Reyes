@@ -417,15 +417,15 @@
   },
   {
     "titulo": "AL QUE ME CIÑE DE PODER",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "AL QUE ME CIÑE DE PODERAQUEL QUE MI VICTORIA ESSOLO A EL ALABARÉSOLO A EL EXALTARÉ"
+        "texto": "AL QUE ME CIÑE DE PODER\nAQUEL QUE MI VICTORIA ES\nSOLO A EL ALABARÉ\nSOLO A EL EXALTARÉ"
       },
       {
         "tipo": "v2",
-        "texto": "EN TÍ SERÁ MI ALABANZAEN LA CONGRACIÓNTE CANTARÉ Y TE ALABARÉTU NOMBRE ES SEÑOR"
+        "texto": "EN TÍ SERÁ MI ALABANZA\nEN LA CONGRACIÓN\nTE CANTARÉ Y TE ALABARÉ\nTU NOMBRE ES SEÑOR"
       }
     ]
   },

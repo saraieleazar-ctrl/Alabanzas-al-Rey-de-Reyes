@@ -315,15 +315,11 @@
   },
   {
     "titulo": "AL CORDERO DE DIOS SEA LA GLORIA",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "AL CORDERO DE DIOS SEA LA GLORIAAL CORDERO DE DIOS SEA LA HONRA"
-      },
-      {
-        "tipo": "v2",
-        "texto": "POR SU MUERTE EN LA CRUZPOR SU SANGRE VERTIDA POR MÍGLORIA AL CORDERO DE DIOS"
+        "texto": "AL CORDERO DE DIOS SEA LA GLORIA\nAL CORDERO DE DIOS SEA LA HONRA\nPOR SU MUERTE EN LA CRUZ\nPOR SU SANGRE VERTIDA POR MÍ\nGLORIA AL CORDERO DE DIOS"
       }
     ]
   },

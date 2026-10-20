@@ -279,23 +279,23 @@
   },
   {
     "titulo": "AHORA VIVO PARA TI",
-    "autor": "Autor desconocido",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "NADIE PUEDE IGUALARLO  QUE HICISTE TU POR MIHAS CAMBIADO MI DOLORPOR TU AMOR"
+        "texto": "NADIE PUEDE IGUALAR \nLO QUE HICISTE TU POR MI\nHAS CAMBIADO MI DOLOR POR TU AMOR"
       },
       {
         "tipo": "v2",
-        "texto": "ME HAS DADO LIBERTAD, VIDA ETERNAY MUCHO MASMAS DE LO QUE PUEDO IMAGINAR"
+        "texto": "ME HAS DADO LIBERTAD, \nVIDA ETERNA Y MUCHO MAS\nMAS DE LO QUE PUEDO IMAGINAR"
       },
       {
         "tipo": "v3",
-        "texto": "MI JESUS A DONDE IRE SI NO ESTASNADA SOYPUES TU AMORME CONQUISTOSIEMPRE TE AMARE"
+        "texto": "MI JESUS A DONDE IRE SI NO ESTAS\nNADA SOY PUES TU AMOR ME CONQUISTO\nSIEMPRE TE AMARE"
       },
       {
         "tipo": "v4",
-        "texto": "AHORA VIVO PARA TI,ERES TODO LO QUE QUIEROYA NO SE ESTAR SIN TI,QUEDATE CONMIGOMI JESUS"
+        "texto": "AHORA VIVO PARA TI,\nERES TODO LO QUE QUIERO\nYA NO SE ESTAR SIN TI,\nQUEDATE CONMIGO MI JESUS"
       }
     ]
   },

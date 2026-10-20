@@ -504,16 +504,16 @@
     ]
   },
   {
-    "titulo": "ALABAD AL SEÑOR NUESTRO PADRE",
-    "autor": "Autor desconocido",
+    "titulo": "ALABAD AL SEÑOR NUESTRO PADRE Y DIOS",
+    "autor": "",
     "estrofas": [
       {
         "tipo": "v1",
-        "texto": "ALABAD AL SEÑOR, NUESTRO PADRE Y DIOSALABAD AL SEÑORPOR SU GRAN AMOR"
+        "texto": "ALABAD AL SEÑOR, NUESTRO PADRE Y DIOS\nALABAD AL SEÑOR POR SU GRAN AMOR"
       },
       {
         "tipo": "v2",
-        "texto": "ALABAD AL SEÑORPOR SU GRACIA Y PODERALABAD AL SEÑORUNA Y OTRA VEZ"
+        "texto": "ALABAD AL SEÑOR POR SU GRACIA Y PODER\nALABAD AL SEÑOR UNA Y OTRA VEZ"
       }
     ]
   },
